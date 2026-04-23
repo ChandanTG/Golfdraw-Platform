@@ -18,6 +18,13 @@ API.interceptors.request.use((config) => {
 API.interceptors.response.use(
   (response) => response,
   (error) => {
+    // Handle database unavailable errors gracefully
+    if (error.response?.status === 503) {
+      console.error('Database temporarily unavailable:', error.response.data?.error);
+      // Don't redirect, just show error
+      return Promise.reject(new Error('Service temporarily unavailable. Please try again later.'));
+    }
+    
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');

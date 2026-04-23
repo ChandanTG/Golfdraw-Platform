@@ -26,7 +26,7 @@ const scheduleCrons = () => {
 
   // Run on 1st of each month - expire old subscriptions
   cron.schedule('0 1 1 * *', async () => {
-    console.log('⏰ Cron: Checking expired subscriptions...');
+    console.log(' Cron: Checking expired subscriptions...');
     try {
       const result = await User.updateMany(
         {
@@ -44,7 +44,7 @@ const scheduleCrons = () => {
     }
   });
 
-  console.log('✅ Cron jobs scheduled');
+  console.log(' Cron jobs scheduled');
 };
 
 module.exports = { scheduleCrons };

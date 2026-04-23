@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
+const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/error');
 const { scheduleCrons } = require('./utils/cron');
@@ -12,8 +13,23 @@ const { scheduleCrons } = require('./utils/cron');
 // Load env vars
 dotenv.config();
 
-// Connect to database
-connectDB();
+// Connect to database (handle gracefully in production)
+const initDatabase = async () => {
+  try {
+    await connectDB();
+  } catch (error) {
+    console.error('Failed to connect to database:', error.message);
+    if (process.env.NODE_ENV === 'production' && process.env.VERCEL === '1') {
+      // In Vercel production, continue without DB to show proper error pages
+      console.log('Continuing without database connection for Vercel deployment');
+    } else {
+      throw error;
+    }
+  }
+};
+
+// Initialize database
+initDatabase();
 
 const app = express();
 
@@ -88,6 +104,17 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(buildPath, 'index.html'));
   });
 }
+
+// Database connection check middleware
+app.use('/api', (req, res, next) => {
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).json({
+      success: false,
+      error: 'Database connection unavailable'
+    });
+  }
+  next();
+});
 
 // Error handler
 app.use(errorHandler);
