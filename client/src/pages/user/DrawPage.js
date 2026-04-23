@@ -26,7 +26,6 @@ const DrawPage = () => {
   const [history, setHistory] = useState([]);
   const [scores, setScores] = useState([]);
   const [participants, setParticipants] = useState(0);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetch = async () => {
@@ -41,7 +40,6 @@ const DrawPage = () => {
         setHistory(histRes.data.data);
         setScores(scoreRes.data.data);
       } catch {}
-      setLoading(false);
     };
     fetch();
   }, []);

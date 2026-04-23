@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
-import API from '../utils/api';
 
 /* ── Animated counter ─────────────────────────────── */
 const Counter = ({ target, suffix = '' }) => {

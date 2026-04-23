@@ -2,33 +2,50 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => (
-  <footer style={{ background:'var(--bg-card)', borderTop:'1px solid var(--border)', padding:'56px 0 32px' }}>
+  <footer style={{ background: 'var(--bg-card)', borderTop: '1px solid var(--border)', padding: '56px 0 32px' }}>
     <div className="container">
-      <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', gap:48, marginBottom:48 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 48, marginBottom: 48 }}>
+
         <div>
-          <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
             <div style={{
-              width:36, height:36, borderRadius:9, background:'var(--green)',
-              display:'flex', alignItems:'center', justifyContent:'center',
-              fontFamily:'var(--font-display)', fontWeight:800, color:'#000'
+              width: 36, height: 36, borderRadius: 9, background: 'var(--green)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: 'var(--font-display)', fontWeight: 800, color: '#000'
             }}>G</div>
-            <span style={{ fontFamily:'var(--font-display)', fontWeight:800, fontSize:'1.1rem' }}>
-              Golf<span style={{ color:'var(--green)' }}>Draw</span>
+
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.1rem' }}>
+              Golf<span style={{ color: 'var(--green)' }}>Draw</span>
             </span>
           </div>
-          <p style={{ color:'var(--text-muted)', fontSize:'0.9rem', lineHeight:1.7, maxWidth:280 }}>
+
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.7, maxWidth: 280 }}>
             A modern platform combining competitive golf score tracking with monthly prize draws and charitable giving.
           </p>
-          <div style={{ display:'flex', gap:12, marginTop:20 }}>
-            {['🐦','💼','📷'].map((icon, i) => (
-              <a key={i} href="#" style={{
-                width:36, height:36, borderRadius:8, background:'var(--bg-raise)',
-                border:'1px solid var(--border)', display:'flex', alignItems:'center',
-                justifyContent:'center', fontSize:'1rem', transition:'border-color 0.2s',
-              }}
-              onMouseEnter={e => e.currentTarget.style.borderColor='var(--border-hi)'}
-              onMouseLeave={e => e.currentTarget.style.borderColor='var(--border)'}
-              >{icon}</a>
+
+          {/*  FIXED SOCIAL LINKS */}
+          <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
+            {[
+              { icon: '🐦', link: 'https://twitter.com' },
+              { icon: '💼', link: 'https://linkedin.com' },
+              { icon: '📷', link: 'https://instagram.com' }
+            ].map((item, i) => (
+              <a
+                key={i}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  width: 36, height: 36, borderRadius: 8, background: 'var(--bg-raise)',
+                  border: '1px solid var(--border)', display: 'flex',
+                  alignItems: 'center', justifyContent: 'center', fontSize: '1rem',
+                  transition: 'border-color 0.2s'
+                }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--border-hi)'}
+                onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
+              >
+                {item.icon}
+              </a>
             ))}
           </div>
         </div>
@@ -47,19 +64,29 @@ const Footer = () => (
           <FooterLink to="/winners">Winners</FooterLink>
         </FooterCol>
 
+        {/*  FIXED LEGAL LINKS */}
         <FooterCol title="Legal">
-          <FooterLink to="#">Terms of Service</FooterLink>
-          <FooterLink to="#">Privacy Policy</FooterLink>
-          <FooterLink to="#">Cookie Policy</FooterLink>
-          <FooterLink to="#">Contact Us</FooterLink>
+          <FooterLink to="/terms">Terms of Service</FooterLink>
+          <FooterLink to="/privacy">Privacy Policy</FooterLink>
+          <FooterLink to="/cookies">Cookie Policy</FooterLink>
+          <FooterLink to="/contact">Contact Us</FooterLink>
         </FooterCol>
       </div>
 
-      <div style={{ borderTop:'1px solid var(--border)', paddingTop:24, display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12 }}>
-        <p style={{ color:'var(--text-dim)', fontSize:'0.82rem' }}>
+      <div style={{
+        borderTop: '1px solid var(--border)',
+        paddingTop: 24,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: 12
+      }}>
+        <p style={{ color: 'var(--text-dim)', fontSize: '0.82rem' }}>
           © {new Date().getFullYear()} GolfDraw Platform. All rights reserved.
         </p>
-        <p style={{ color:'var(--text-dim)', fontSize:'0.82rem' }}>
+
+        <p style={{ color: 'var(--text-dim)', fontSize: '0.82rem' }}>
           Built with ❤️ for golfers who give back
         </p>
       </div>
@@ -79,16 +106,32 @@ const Footer = () => (
 
 const FooterCol = ({ title, children }) => (
   <div>
-    <h4 style={{ fontFamily:'var(--font-display)', fontSize:'0.82rem', textTransform:'uppercase', letterSpacing:'0.1em', color:'var(--text-muted)', marginBottom:16 }}>{title}</h4>
-    <div style={{ display:'flex', flexDirection:'column', gap:10 }}>{children}</div>
+    <h4 style={{
+      fontFamily: 'var(--font-display)',
+      fontSize: '0.82rem',
+      textTransform: 'uppercase',
+      letterSpacing: '0.1em',
+      color: 'var(--text-muted)',
+      marginBottom: 16
+    }}>
+      {title}
+    </h4>
+
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {children}
+    </div>
   </div>
 );
 
 const FooterLink = ({ to, children }) => (
-  <Link to={to} style={{ color:'var(--text-dim)', fontSize:'0.9rem', transition:'color 0.2s' }}
-    onMouseEnter={e => e.currentTarget.style.color='var(--text)'}
-    onMouseLeave={e => e.currentTarget.style.color='var(--text-dim)'}
-  >{children}</Link>
+  <Link
+    to={to}
+    style={{ color: 'var(--text-dim)', fontSize: '0.9rem', transition: 'color 0.2s' }}
+    onMouseEnter={e => e.currentTarget.style.color = 'var(--text)'}
+    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-dim)'}
+  >
+    {children}
+  </Link>
 );
 
 export default Footer;

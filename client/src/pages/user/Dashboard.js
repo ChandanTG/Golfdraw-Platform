@@ -16,12 +16,11 @@ const StatCard = ({ label, value, sub, color = 'var(--green)', icon, delay = 0 }
 );
 
 const Dashboard = () => {
-  const { user, refreshUser } = useAuth();
+  const { user } = useAuth();
   const [scores, setScores] = useState([]);
   const [drawHistory, setDrawHistory] = useState([]);
   const [currentDraw, setCurrentDraw] = useState(null);
   const [winnings, setWinnings] = useState([]);
-  const [loadingData, setLoadingData] = useState(true);
 
   const hasActiveSub = user?.subscription?.status === 'active';
 
@@ -41,7 +40,6 @@ const Dashboard = () => {
           setDrawHistory(histRes.data.data.slice(0, 3));
         }
       } catch {}
-      setLoadingData(false);
     };
     fetchAll();
   }, [hasActiveSub]);

@@ -20,7 +20,7 @@ const CharityDetail = () => {
     API.get(`/charities/${id}`)
       .then(r => { setCharity(r.data.data); setLoading(false); })
       .catch(() => { toast.error('Charity not found'); navigate('/charities'); });
-  }, [id]);
+  }, [id, navigate]);
 
   const isSelected = user?.selectedCharity?._id === charity?._id || user?.selectedCharity === charity?._id;
 
