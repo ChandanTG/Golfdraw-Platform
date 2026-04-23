@@ -170,16 +170,6 @@ cd client && npm start      # UI on :3000
 
 ---
 
-## 🧪 Test Accounts
-
-| Role | Email | Password |
-|---|---|---|
-| Admin | admin@golfdraw.com | Admin@123456 |
-| User | james@example.com | Password@123 |
-| User | sarah@example.com | Password@123 |
-
----
-
 ## ⛳ Core Features
 
 ### Score System
