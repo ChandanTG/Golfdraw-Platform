@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
 const connectDB = async () => {
   try {
     if (!process.env.MONGODB_URI) {
@@ -10,12 +16,27 @@ const connectDB = async () => {
       return;
     }
     
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      // Modern mongoose doesn't need these options but good to be explicit
-    });
-    console.log(` MongoDB Connected: ${conn.connection.host}`);
+    if (cached.conn) {
+      console.log(' Using existing MongoDB connection');
+      return cached.conn;
+    }
+
+    if (!cached.promise) {
+      const opts = {
+        bufferCommands: true,
+      };
+
+      cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((mongoose) => {
+        return mongoose;
+      });
+    }
+
+    cached.conn = await cached.promise;
+    console.log(` MongoDB Connected: ${cached.conn.connection.host}`);
+    return cached.conn;
   } catch (error) {
     console.error(` MongoDB Connection Error: ${error.message}`);
+    cached.promise = null;
     // Don't exit in production/Vercel to allow for better error handling
     if (process.env.NODE_ENV !== 'production' && process.env.VERCEL !== '1') {
       process.exit(1);

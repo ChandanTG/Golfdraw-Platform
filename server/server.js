@@ -96,6 +96,11 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ success: true, message: 'Golf Draw Platform API is running' });
 });
 
+// API 404 handler
+app.use('/api', (req, res) => {
+  res.status(404).json({ success: false, error: 'API endpoint not found' });
+});
+
 // Serve static assets in production (fallback, Vercel handles this via vercel.json routes)
 if (process.env.NODE_ENV === 'production') {
   const buildPath = path.join(__dirname, '../client/build');
@@ -104,17 +109,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(buildPath, 'index.html'));
   });
 }
-
-// Database connection check middleware
-app.use('/api', (req, res, next) => {
-  if (mongoose.connection.readyState !== 1) {
-    return res.status(503).json({
-      success: false,
-      error: 'Database connection unavailable'
-    });
-  }
-  next();
-});
 
 // Error handler
 app.use(errorHandler);
